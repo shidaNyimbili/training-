@@ -1,10 +1,10 @@
 source("scripts/r prep2.r")
 
 # Read shapefile
-districts_zam <- st_read("Data/Updated Shapefiles/Districts.shp")
+districts_zam <- st_read("Data/Districts.shp")
 
 # Read HIV.prevalence.rates data
-actionhiv <- read_xlsx("Data/reserach/prevdataactionhiv.xlsx")
+actionhiv <- read_xlsx("Data/prevdataactionhiv.xlsx")
 
 
 actionhiv
@@ -42,6 +42,8 @@ districts_zam1 <- districts_zam %>%
 actionhiv.4 <- actionhiv.3 %>%
   group_by(yr, distrt, subRt)
 
+actionhiv.4
+
 actionhiv.5 <- left_join(actionhiv.4,
                          districts_zam1,
                          by = c("distrt" = "DISTRICT")) %>%
@@ -64,3 +66,10 @@ plot <- ggplot() +
 
 # View the plot
 print(plot)
+
+# Save the plot
+ggsave("visualization/prev_rate.png",
+       device = "png",
+       type = "cairo",
+       height = 7.5,
+       width = 16)
